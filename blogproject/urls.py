@@ -8,13 +8,17 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+# ✅ A simple root route response
+def home_view(request):
+    return JsonResponse({"message": "Blog backend is live!"})
+
 urlpatterns = [
-    path('', lambda request: JsonResponse({'message': 'Blog backend is live!'})),  # 👈 Root endpoint
+    path('', home_view),  # ✅ Root route to avoid 404
     path('admin/', admin.site.urls),
-    path('api/', include('blogapp.urls')),  # your blog APIs
+    path('api/', include('blogapp.urls')),  # Your app API
     path('auth/jwt/create/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/jwt/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('auth/', include('djoser.urls')),             
+    path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
 ]
 
